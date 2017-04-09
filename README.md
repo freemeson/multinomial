@@ -9,6 +9,7 @@ The limit for a 64bit implementation from numerical errors appear around 20 degr
 precison. Regression limits are dominated by the size of the matrix, due to inversion errors around sizes 2000x2000. 
 
 The implementation uses the Eigen library, from http://eigen.tuxfamily.org, but it was tested with LAPACK as well.
+For crosschecking the accuracy of the binomial calculation it also uses the binomial function from ROOT, https://root.cern.ch/ . 
 
 Some descripton and example:
 
