@@ -37,6 +37,7 @@ private:
   static binomial_singleton * s_instance;
   std::vector<std::vector<unsigned long int > > m_binomial;
   int m_order;
+  double double_binomial(int n,int k);
 public:
   void increase(int max_order);
   static binomial_singleton * instance(int max_order);
