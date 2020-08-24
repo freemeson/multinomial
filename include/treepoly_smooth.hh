@@ -23,7 +23,9 @@ public:
   T eval(tensor_serie<T> const & x);
   T eval(std::vector<T> const & x);
   T eval_1dim(T const & x);
+  //the user needs to call train();  Train() calles solve(), and solve() calls deep_train() when necessary.
   void train(bool in_posterior_correction = true);
+  //I guess you don't need to call this directly, but needs to be public. It is called by train()
   void solve(tensor_serie<T> & x, bool keep_data = false, bool in_posterior_correction = true);
   void deep_train(tensor_serie<T> & x, bool in_posterior_correction = true);
   void clear_data();  
