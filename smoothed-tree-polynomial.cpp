@@ -42,7 +42,7 @@ int main(void) {
 		data[i][1] = y;
 	}
 
-	int n_levels = 15, n_input_vars =1;
+	int n_levels = 5, n_input_vars =1;
 
 	treepoly_smooth<long double> tree_poly(n_input_vars,n_levels);
 	tree_poly.reserve(data.size());
