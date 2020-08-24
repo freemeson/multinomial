@@ -36,10 +36,29 @@ polynomefit-error-propagation.o: polynomefit-error-propagation.cpp include/monop
 	
 polynomefit-error-propagation: polynomefit-error-propagation.o monopoly.o full_correlation_tensor_serie.o tensor_serie.o
 	$(CXX) -o polynomefit-error-propagation full_correlation_tensor_serie.o tensor_serie.o polynomefit-error-propagation.o monopoly.o 
+
+treepoly_smooth.o: include/treepoly_smooth.hh src/treepoly_smooth.cc include/tensor_serie.hh
+	$(CXX) -o treepoly_smooth.o $(CXXFLAGS) -c src/treepoly_smooth.cc
+	
+smoothed-tree-polynomial.o: smoothed-tree-polynomial.cpp include/treepoly_smooth.hh
+	$(CXX) -o smoothed-tree-polynomial.o $(CXXFLAGS) -c smoothed-tree-polynomial.cpp
+
+smoothed-tree-polynomial: smoothed-tree-polynomial.o tensor_serie.o treepoly_smooth.o monopoly.o
+	$(CXX) -o smoothed-tree-polynomial smoothed-tree-polynomial.o tensor_serie.o treepoly_smooth.o monopoly.o
+	
+tree_regression.o: include/tree_regression.hh src/tree_regression.cc include/datautil.hh include/full_correlation_tensor_serie.hh include/tensor_serie.hh
+	$(CXX) -o tree_regression.o $(CXXFLAGS) -c src/tree_regression.cc
+
+tree-polynomial.o: tree-polynomial.cpp include/tree_regression.hh
+	$(CXX) -o tree-polynomial.o $(CXXFLAGS) -c tree-polynomial.cpp
+
+tree-polynomial: tree-polynomial.o tree_regression.o tensor_serie.o monopoly.o full_correlation_tensor_serie.o
+	$(CXX) -o tree-polynomial tree-polynomial.o tree_regression.o tensor_serie.o monopoly.o full_correlation_tensor_serie.o
+	
 #fractional_fit.o: src/fractional_fit.cc include/fractional_fit.hh
 #	$(CXX) -o fractional_fit.o $(CXXFLAGS) -c include/fracional_fit.hh
 
-all: polynomefit variable_selection polynomefit-error-propagation
+all: polynomefit variable_selection polynomefit-error-propagation smoothed-tree-polynomial tree-polynomial
 
 clean:
 	rm -f $(OBJS) $(TARGET)
