@@ -1,6 +1,7 @@
 #include "../include/treepoly_smooth.hh"
 #include <iostream>
-#include "TMath.h"
+//#include "TMath.h"
+#include <cmath>
 #include <new>
 
 template<class T>
@@ -24,7 +25,7 @@ treepoly_smooth<T>::treepoly_smooth(int dimensions, int max_level, int order):
   m_shaping_level(5),
   l2(dimensions, order),
   m_x(dimensions, order),
-  neural_cut(0.000),
+  neural_cut(1e-5),
   do_l4(true),
   sigmoid_width(0.3)
 {
@@ -248,7 +249,7 @@ void treepoly_smooth<T>::solve(tensor_serie<T> & x, bool keep_data , bool in_pos
   avg_tt = avg_tt/sum_w - avg_t*avg_t;
   if(avg_tt == 0.0) {skip_me = true; std::cout << "zero target variance^2, ending training" << std::endl; return;}
   if(avg_tt <= 0.0) {skip_me = true; std::cout << "negative target variance^2, ending training" << std::endl; return;}
-  avg_tt = TMath::Sqrt(avg_tt)/sigmoid_width;//*per_pi_half;
+  avg_tt = sqrt(avg_tt)/sigmoid_width;//*per_pi_half;
   
   
   if(m_max_level!=1)
@@ -370,13 +371,13 @@ T treepoly_smooth<T>::eval(tensor_serie<T> const & x)
 template<class T>
 T treepoly_smooth<T>::neural_response(T value)
 {
-  return TMath::ATan( (value-avg_t)/avg_tt)*avg_tt+avg_t;
+  return atan( (value-avg_t)/avg_tt)*avg_tt+avg_t;
 } 
 
 template<class T>
 T treepoly_smooth<T>::neural_weight(T value)
 {
-  return TMath::ATan( (value-avg_t)/avg_tt/per_pi_half/sigmoid_width*1.0)*per_pi + 0.5; 
+  return atan( (value-avg_t)/avg_tt/per_pi_half/sigmoid_width*1.0)*per_pi + 0.5;
 } 
 
 
