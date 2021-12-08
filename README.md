@@ -1,5 +1,5 @@
 # multinomial
-A library to store covariants of a multivariate polynomial, with fast evaluation and random access.
+A library to store symmetric tensors and covariants of multivariate polynomial, with fast evaluation and random access.
 Added functionality to make polynomial regression of multivariate data. The multivariade diad tensors
 of data vectors are created when the fill(data-vector, target) function is called, and aggregated into the symmetric tensor
 elements. 
